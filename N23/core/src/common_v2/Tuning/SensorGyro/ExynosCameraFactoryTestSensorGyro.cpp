@@ -124,7 +124,7 @@ int SEC_Gyro_SelfTest(void* elg1, void* elg2, unsigned char* otp)
 status_t ExynosCameraFactoryTestSensorGyro::check(void)
 {
     status_t ret = NO_ERROR;
-
+#ifdef USES_SENSOR_GYRO_FACTORY_MODE
     struct camera2_shot_ext *shot_ext = NULL;
     unsigned char otp[3] = { 0, 0, 0 };
 
@@ -185,7 +185,7 @@ done:
     m_flagChecked = true;
 
     ////////////////////////////////////////////////
-
+#endif
     return ret;
 }
 

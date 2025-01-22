@@ -162,6 +162,9 @@ cc_defaults {
     }) + select(soong_config_variable("exynos_camera", "uses_exynos_lec"), {
         "true": [ "-DUSES_CAMERA_EXYNOS_LEC" ],
         default: [],
+    }) + select(soong_config_variable("exynos_camera", "target_variant"), {
+        "kane": [ "-DMOT_9609_SENSORS_KANE" ],
+        default: [],
     }),
 
     static_libs: [

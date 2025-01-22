@@ -22,6 +22,9 @@
  *
  */
 
+#ifdef MOT_9609_SENSORS_KANE
+#include "ExynosCameraConfig_kane.h"
+#else
 #ifndef EXYNOS_CAMERA_CONFIG_H__
 #define EXYNOS_CAMERA_CONFIG_H__
 
@@ -1768,3 +1771,4 @@ enum fimc_is_virtual_video_dev_num {
 #endif /*USE_VENDOR_SPECIFIC_CONFIG_HEADER*/
 
 #endif /* EXYNOS_CAMERA_CONFIG_H__ */
+#endif /* MOT_9609_SENSORS_KANE */

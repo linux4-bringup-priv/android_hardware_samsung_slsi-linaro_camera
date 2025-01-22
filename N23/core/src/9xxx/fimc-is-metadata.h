@@ -2126,7 +2126,9 @@ struct camera2_shot_ext_user {
     int32_t focus_target_pos;
 
     struct ddk_setfile_ver ddk_version;
+#ifdef USES_SENSOR_GYRO_FACTORY_MODE
     struct sensor_gyro_info gyro_info;
+#endif
 };
 
 struct facial_score {

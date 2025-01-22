@@ -234,7 +234,7 @@
 #define CAMERA_SERVICE_ID_LOGICAL_REAR_TOF      40      /* Rear Main + TOF */
 #define CAMERA_SERVICE_ID_LOGICAL_FRONT_TOF     41      /* Front Main + TOF */
 /* 50 ~  : Single Hidden ID Section */
-#define CAMERA_SERVICE_ID_REAR_2                50
+#define CAMERA_SERVICE_ID_REAR_2                2
 #define CAMERA_SERVICE_ID_FRONT_2               51
 #define CAMERA_SERVICE_ID_REAR_3                52
 #define CAMERA_SERVICE_ID_FRONT_3               53
