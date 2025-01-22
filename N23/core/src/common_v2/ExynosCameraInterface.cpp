@@ -711,7 +711,11 @@ int control_torch_flash(enum CAMERA_TORCH_FLASH flash_type, bool enabled)
 
     switch (flash_type) {
         case CAMERA_TORCH_FLASH_REAR:
+#if MOT_9609_SENSORS_KANE
+            snprintf(flashFilePath, sizeof(flashFilePath), TORCH_REAR_FILE_PATH_1);
+#else
             snprintf(flashFilePath, sizeof(flashFilePath), TORCH_REAR_FILE_PATH);
+#endif
             break;
 #ifdef TORCH_REAR2_FILE_PATH
         case CAMERA_TORCH_FLASH_REAR2:
@@ -740,7 +744,44 @@ int control_torch_flash(enum CAMERA_TORCH_FLASH flash_type, bool enabled)
             __FUNCTION__, __LINE__, flashFilePath);
         return -ENOSYS;
     }
+#if MOT_9609_SENSORS_KANE
+    if (enabled) {
+        fwrite("1 1", sizeof(char), 3, fp);
+        fseek(fp, 0, SEEK_SET);
+        fwrite("2 1", sizeof(char), 3, fp);
+    } else {
+        fwrite("1 0", sizeof(char), 3, fp);
+        fseek(fp, 0, SEEK_SET);
+        fwrite("2 0", sizeof(char), 3, fp);
+    }
+    fflush(fp);
 
+    ret = fclose(fp);
+    if (ret != 0) {
+        ALOGE("ERR(%s[%d]): file close failed(%d)", __FUNCTION__, __LINE__, ret);
+    }
+
+    fp = fopen(TORCH_REAR_CURRENT_PATH_1, "w+");
+    if (fp == NULL) {
+        ALOGE("ERR(%s[%d]):torch current file open(%s) fail",
+            __FUNCTION__, __LINE__, TORCH_REAR_CURRENT_PATH_1);
+        return -ENOSYS;
+    }
+
+    if (enabled) {
+#ifdef MOT_9609_SENSORS_TROIKA
+        fwrite("1 150", sizeof(char), 5, fp);
+#else
+        fwrite("1 130", sizeof(char), 5, fp);
+#endif
+        fseek(fp, 0, SEEK_SET);
+        fwrite("2 50", sizeof(char), 4, fp);
+    } else {
+        fwrite("1 0", sizeof(char), 3, fp);
+        fseek(fp, 0, SEEK_SET);
+        fwrite("2 0", sizeof(char), 3, fp);
+    }
+#else
     if (enabled) {
 #ifdef FLASH_ON_VAL
         snprintf(flashVal, sizeof(flashVal), FLASH_ON_VAL);
@@ -759,7 +800,7 @@ int control_torch_flash(enum CAMERA_TORCH_FLASH flash_type, bool enabled)
 #endif
     }
     fwrite(flashVal, sizeof(char), flashValSize, fp);
-
+#endif
     fflush(fp);
 
     ret = fclose(fp);
