@@ -288,7 +288,11 @@ status_t ExynosCameraMetadataConverter::constructDefaultRequestSettings(int type
     settings.update(ANDROID_LENS_FOCAL_LENGTH, &(m_sensorStaticInfo->focalLength), 1);
     settings.update(ANDROID_LENS_APERTURE, &(m_sensorStaticInfo->fNumber), 1); // ExifInterface :  TAG_APERTURE = "FNumber";
     settings.update(ANDROID_LENS_FILTER_DENSITY, &(m_sensorStaticInfo->filterDensity), 1);
+#ifdef MOT_9609_SENSORS_TROIKA
+    const uint8_t opticalStabilizationMode = ANDROID_LENS_OPTICAL_STABILIZATION_MODE_OFF;
+#else
     const uint8_t opticalStabilizationMode = ANDROID_LENS_OPTICAL_STABILIZATION_MODE_ON;
+#endif
     settings.update(ANDROID_LENS_OPTICAL_STABILIZATION_MODE, &opticalStabilizationMode, 1);
 
     /** android.sensor */

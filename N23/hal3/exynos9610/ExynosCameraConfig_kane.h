@@ -47,6 +47,9 @@
 #define CAMERA_OPEN_ID_REAR_0       0
 #define CAMERA_OPEN_ID_FRONT_1      1
 #define CAMERA_OPEN_ID_REAR_2
+#ifdef MOT_9609_SENSORS_TROIKA
+#define CAMERA_OPEN_ID_REAR_3
+#endif
 //#define CAMERA_OPEN_ID_REAR_3
 //#define CAMERA_OPEN_ID_LCAM_0
 
@@ -657,10 +660,17 @@ plane[0] = 512, other plane[1~N] = 512/2
 #define SENSOR_FW_GET_FROM_FILE
 #define SENSOR_FW_EEPROM_SIZE   (16 * 1024) // 16K
 
+#ifdef MOT_9609_SENSORS_TROIKA
+#define SENSOR_FW_PATH_BACK "/data/vendor/camera/dump_12a10_eeprom_data.bin"
+#define SENSOR_FW_PATH_BACK_1 "/data/vendor/camera/dump_5e9_troika_eeprom_data.bin"
+#define SENSOR_FW_PATH_BACK_2 "/data/vendor/camera/dump_16885c_eeprom_data.bin"
+#define SENSOR_FW_PATH_FRONT "/data/vendor/camera/dump_12a10ff_eeprom_data.bin"
+#else
 #define SENSOR_FW_PATH_BACK "/data/vendor/camera/gm1_eeprom_data.bin"
 #define SENSOR_FW_PATH_BACK_1 "/data/vendor/camera/5e9_eeprom_data.bin"
 #define SENSOR_FW_PATH_FRONT "/data/vendor/camera/2x5_otp_cal_data.bin"
 #define SENSOR_FW_PATH_FRONT_1 "/sys/class/camera/front/front2_camfw"
+#endif
 
 /* flashlight control */
 #define TORCH_REAR_FILE_PATH "/sys/class/camera/flash/rear_torch_flash"
@@ -859,8 +869,13 @@ enum REPROCESSING_BAYER_MODE {
 /* Node num infomation */
 /* back */
 #define BACK_CAMERA_FLITE_NUM             FIMC_IS_VIDEO_SS0_NUM
+#ifdef MOT_9609_SENSORS_TROIKA
+#define BACK_2_CAMERA_FLITE_NUM             FIMC_IS_VIDEO_SS3_NUM
+#define BACK_3_CAMERA_FLITE_NUM             FIMC_IS_VIDEO_SS1_NUM
+#else
 #define BACK_2_CAMERA_FLITE_NUM             FIMC_IS_VIDEO_SS2_NUM
 #define BACK_3_CAMERA_FLITE_NUM             FIMC_IS_VIDEO_SS4_NUM
+#endif
 #define BACK_4_CAMERA_FLITE_NUM             FIMC_IS_VIDEO_SS6_NUM
 
 #define MAIN_CAMERA_FLITE_NUM               BACK_CAMERA_FLITE_NUM
@@ -875,7 +890,11 @@ enum REPROCESSING_BAYER_MODE {
 #define MAIN_CAMERA_HAS_OWN_SCC             (false)
 
 /* front */
+#ifdef MOT_9609_SENSORS_TROIKA
+#define FRONT_0_CAMERA_FLITE_NUM            FIMC_IS_VIDEO_SS2_NUM
+#else
 #define FRONT_0_CAMERA_FLITE_NUM            FIMC_IS_VIDEO_SS1_NUM
+#endif
 #define FRONT_2_CAMERA_FLITE_NUM            FIMC_IS_VIDEO_SS3_NUM
 #define FRONT_3_CAMERA_FLITE_NUM            FIMC_IS_VIDEO_SS5_NUM
 #define FRONT_4_CAMERA_FLITE_NUM            FIMC_IS_VIDEO_SS7_NUM

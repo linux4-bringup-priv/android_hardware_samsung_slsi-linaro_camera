@@ -59,7 +59,11 @@ ExynosCameraEEPRomMap *ExynosCameraEEPRomMapFactory::newEEPRomMap(int cameraId)
         newEEPRom = new ExynosCameraEEPRomMap2X5SP(cameraId);
         break;
     case SENSOR_NAME_S5K5E9:
+#ifdef MOT_9609_SENSORS_TROIKA
+        newEEPRom = new ExynosCameraEEPRomMap5E9_OTP(cameraId);
+#else
         newEEPRom = new ExynosCameraEEPRomMap5E9(cameraId);
+#endif
         break;
     case SENSOR_NAME_S5KGM1SP:
         newEEPRom = new ExynosCameraEEPRomMapGM1SP(cameraId);

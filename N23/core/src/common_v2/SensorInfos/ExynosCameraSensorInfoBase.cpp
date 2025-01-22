@@ -4858,10 +4858,17 @@ ExynosCameraSensor5E9Base::ExynosCameraSensor5E9Base(__unused int sensorId) : Ex
     hotPixelModesLength = ARRAY_LENGTH(AVAILABLE_HOT_PIXEL_MODES);
 
     /* Android Lens Static Metadata */
+#ifdef MOT_9609_SENSORS_TROIKA
+    aperture = 2.2f;
+    fNumber = 2.2f;
+    filterDensity = 0.0f;
+    focalLength = 1.98f;
+#else
     aperture = 2.25f;
     fNumber = 2.25f;
     filterDensity = 0.0f;
     focalLength = 2.166f;
+#endif
     focalLengthIn35mmLength = 25;
     hyperFocalDistance = 1.0f / 3.6f;
     minimumFocusDistance = 0.0f;
@@ -4955,8 +4962,13 @@ ExynosCameraSensor5E9Base::ExynosCameraSensor5E9Base(__unused int sensorId) : Ex
     toneMapModes = AVAILABLE_TONE_MAP_MODES;
     toneMapModesLength = ARRAY_LENGTH(AVAILABLE_TONE_MAP_MODES);
 
+#ifdef MOT_9609_SENSORS_TROIKA
+    horizontalViewAngle[SIZE_RATIO_4_3]  = 70.1f;
+    verticalViewAngle = 55.6f;
+#else
     horizontalViewAngle[SIZE_RATIO_4_3]  = 67.7f;
     verticalViewAngle = 53.4f;
+#endif
 
     /* Android Sync Static Metadata */
     maxLatency = ANDROID_SYNC_MAX_LATENCY_PER_FRAME_CONTROL; //0
@@ -6123,7 +6135,11 @@ ExynosCameraSensor12A10Base::ExynosCameraSensor12A10Base(int sensorId) : ExynosC
     edgeModesLength = ARRAY_LENGTH(AVAILABLE_EDGE_MODES);
 
     /* Android Flash Static Metadata */
+#ifdef MOT_9609_SENSORS_TROIKA
+    flashAvailable = ANDROID_FLASH_INFO_AVAILABLE_TRUE;
+#else
     flashAvailable = ANDROID_FLASH_INFO_AVAILABLE_FALSE;
+#endif
     if (flashAvailable == ANDROID_FLASH_INFO_AVAILABLE_TRUE) {
         aeModes = AVAILABLE_AE_MODES;
         aeModesLength = ARRAY_LENGTH(AVAILABLE_AE_MODES);

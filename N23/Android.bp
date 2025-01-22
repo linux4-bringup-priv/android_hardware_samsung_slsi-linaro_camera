@@ -164,6 +164,10 @@ cc_defaults {
         default: [],
     }) + select(soong_config_variable("exynos_camera", "target_variant"), {
         "kane": [ "-DMOT_9609_SENSORS_KANE" ],
+        "troika": [
+            "-DMOT_9609_SENSORS_KANE",
+            "-DMOT_9609_SENSORS_TROIKA",
+        ],
         default: [],
     }),
 

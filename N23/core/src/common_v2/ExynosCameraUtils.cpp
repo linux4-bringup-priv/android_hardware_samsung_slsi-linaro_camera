@@ -2406,6 +2406,16 @@ const char *getSensorFWFromFile(struct ExynosCameraSensorInfoBase *info, int cam
             goto err;
         }
     }
+#ifdef SENSOR_FW_PATH_BACK_2
+    else if (camId == CAMERA_ID_BACK_3) {
+        fp = fopen(SENSOR_FW_PATH_BACK_2, "r");
+        if (fp == NULL) {
+            ALOGE("ERR(%s[%d]):failed to open sysfs entry(%s)", __FUNCTION__, __LINE__, SENSOR_FW_PATH_BACK_2);
+            goto err;
+        }
+    }
+#endif
+#ifdef SENSOR_FW_PATH_FRONT_1
     else if (camId == CAMERA_ID_FRONT_2) {
         fp = fopen(SENSOR_FW_PATH_FRONT_1, "r");
         if (fp == NULL) {
@@ -2413,6 +2423,7 @@ const char *getSensorFWFromFile(struct ExynosCameraSensorInfoBase *info, int cam
             goto err;
         }
     }
+#endif
 #endif
     else {
         fp = fopen(SENSOR_FW_PATH_FRONT, "r");
