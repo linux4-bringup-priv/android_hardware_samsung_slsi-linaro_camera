@@ -1323,7 +1323,10 @@ void ExynosCameraParameters::m_setExifFixedAttribute(void)
                 sizeof(m_exifInfo.model) - 1);
     m_exifInfo.model[sizeof(m_exifInfo.model) - 1] = '\0';
     /* 3 Software */
-    property_get("ro.build.PDA", property, EXIF_DEF_SOFTWARE);
+    if (property_get("ro.build.PDA", property, NULL) == 0)
+        if (property_get("ro.build.display.id", property, NULL) == 0)
+            property_get("ro.build.description", property, EXIF_DEF_SOFTWARE);
+
     strncpy((char *)m_exifInfo.software, property,
                 sizeof(m_exifInfo.software) - 1);
     m_exifInfo.software[sizeof(m_exifInfo.software) - 1] = '\0';
