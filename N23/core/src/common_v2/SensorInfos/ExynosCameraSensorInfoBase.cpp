@@ -5877,8 +5877,13 @@ ExynosCameraSensorGM1SPBase::ExynosCameraSensorGM1SPBase(int sensorId) : ExynosC
     hotPixelModesLength = ARRAY_LENGTH(AVAILABLE_HOT_PIXEL_MODES);
 
     /* Android Lens Static Metadata */
+#ifdef MOT_9609_SENSORS_KANE
+    aperture = 1.7f;
+    fNumber = 1.7f;
+#else
     aperture = 1.75f;
     fNumber = 1.75f;
+#endif
     filterDensity = 0.0f;
     focalLength = 4.745f;
     focalLengthIn35mmLength = 26;
@@ -5924,14 +5929,28 @@ ExynosCameraSensorGM1SPBase::ExynosCameraSensorGM1SPBase(int sensorId) : ExynosC
     croppingType = ANDROID_SCALER_CROPPING_TYPE_FREEFORM;
 
     /* Android Sensor Static Metadata */
+#ifdef MOT_9609_SENSORS_KANE
+    sensitivityRange[MIN] = 40;
+    sensitivityRange[MAX] = 3200;
+#else
     sensitivityRange[MIN] = 50;
     sensitivityRange[MAX] = 1600;
+#endif
     colorFilterArrangement = ANDROID_SENSOR_INFO_COLOR_FILTER_ARRANGEMENT_GRBG;
     exposureTimeRange[MIN] = 60000L;
+#ifdef MOT_9609_SENSORS_KANE
+    exposureTimeRange[MAX] = 250000000L;
+#else
     exposureTimeRange[MAX] = 100000000L;
+#endif
     maxFrameDuration = 142857142L;
+#ifdef MOT_9609_SENSORS_KANE
+    sensorPhysicalSize[WIDTH] = 6.400f;
+    sensorPhysicalSize[HEIGHT] = 4.800f;
+#else
     sensorPhysicalSize[WIDTH] = 5.645f;
     sensorPhysicalSize[HEIGHT] = 4.234f;
+#endif
     whiteLevel = 1023;
     timestampSource = ANDROID_SENSOR_INFO_TIMESTAMP_SOURCE_REALTIME;
     referenceIlluminant1 = ANDROID_SENSOR_REFERENCE_ILLUMINANT1_D65;
