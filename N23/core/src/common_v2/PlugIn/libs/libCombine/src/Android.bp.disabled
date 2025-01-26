@@ -1,0 +1,29 @@
+
+cc_library_shared {
+    name: "libFakeSceneDetect",
+    proprietary: true,
+
+    cflags: [
+        "-Wno-unused-parameter",
+        "-Wno-error=date-time",
+        "-Wno-overloaded-virtual",
+        "-Wno-unused-variable",
+    ],
+
+    shared_libs: [
+        "libutils",
+        "libcutils",
+        "liblog",
+        "libexynosutils",
+    ],
+
+    include_dirs: [
+        "hardware/samsung_slsi-linaro/exynos/include",
+        "hardware/samsung_slsi-linaro/camera/N23/core/src/common_v2/PlugIn/include",
+        "hardware/samsung_slsi-linaro/camera/N23/core/src/common_v2/PlugIn/libs/libCombine/include",
+    ],
+
+    srcs: [
+        "FakeSceneDetect.cpp",
+    ],
+}

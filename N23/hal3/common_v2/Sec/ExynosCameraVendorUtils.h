@@ -28,7 +28,7 @@
 
 #include "ExynosCameraCommonInclude.h"
 #include "ExynosCameraSensorInfo.h"
-#include "videodev2_exynos_media.h"
+#include <linux/videodev2_exynos_media.h>
 #include "ExynosCameraBuffer.h"
 #include "ExynosCameraUtils.h"
 

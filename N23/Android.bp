@@ -1,0 +1,596 @@
+soong_namespace {
+    imports:[
+        "hardware/samsung_slsi-linaro/exynos",
+        "hardware/samsung_slsi-linaro/graphics",
+    ],
+}
+
+cc_defaults {
+    name: "exynos_camera_cflag_defaults",
+
+    cflags: [
+        "-Wno-error=date-time",
+        "-Wno-overloaded-virtual",
+        "-Wno-unused-parameter",
+        "-Wno-date-time",
+        "-Wno-unused-variable",
+        "-Wno-implicit-fallthrough",
+        "-Wno-error=implicit-fallthrough",
+        "-Wno-format",
+        "-Wno-missing-braces",
+        "-Wno-parentheses-equality",
+        "-Wno-switch",
+        "-Wno-self-assign",
+        "-Wno-sometimes-uninitialized",
+        "-Wno-braced-scalar-init",
+        "-DUSE_CAMERA_ESD_RESET",
+    ] + select(soong_config_variable("libhwjpeg", "HWJPEG_ANDROID_VERSION"), {
+        any @ hwjpeg_android_version: ["-DHWJPEG_ANDROID_VERSION=" + hwjpeg_android_version],
+        default: ["-DHWJPEG_ANDROID_VERSION=13"],
+    }) + select(soong_config_variable("exynos_camera", "back_camera_sensor"), {
+        any @ flag_val: [ "-DMAIN_CAMERA_SENSOR_NAME=" + flag_val ],
+        default: [ "-DMAIN_CAMERA_SENSOR_NAME=SENSOR_NAME_NOTHING" ],
+    }) + select(soong_config_variable("exynos_camera", "back_1_camera_sensor"), {
+        any @ flag_val: [ "-DBACK_1_CAMERA_SENSOR_NAME=" + flag_val ],
+        default: [ "-DBACK_1_CAMERA_SENSOR_NAME=SENSOR_NAME_NOTHING" ],
+    }) + select(soong_config_variable("exynos_camera", "back_2_camera_sensor"), {
+        any @ flag_val: [ "-DBACK_2_CAMERA_SENSOR_NAME=" + flag_val ],
+        default: [ "-DBACK_2_CAMERA_SENSOR_NAME=SENSOR_NAME_NOTHING" ],
+    }) + select(soong_config_variable("exynos_camera", "back_3_camera_sensor"), {
+        any @ flag_val: [ "-DBACK_3_CAMERA_SENSOR_NAME=" + flag_val ],
+        default: [ "-DBACK_3_CAMERA_SENSOR_NAME=SENSOR_NAME_NOTHING" ],
+    }) + select(soong_config_variable("exynos_camera", "front_camera_sensor"), {
+        any @ flag_val: [ "-DFRONT_CAMERA_SENSOR_NAME=" + flag_val ],
+        default: [ "-DFRONT_CAMERA_SENSOR_NAME=SENSOR_NAME_NOTHING" ],
+    }) + select(soong_config_variable("exynos_camera", "front_2_camera_sensor"), {
+        any @ flag_val: [ "-DFRONT_2_CAMERA_SENSOR_NAME=" + flag_val ],
+        default: [ "-DFRONT_2_CAMERA_SENSOR_NAME=SENSOR_NAME_NOTHING" ],
+    }) + select(soong_config_variable("exynos_camera", "front_3_camera_sensor"), {
+        any @ flag_val: [ "-DFRONT_3_CAMERA_SENSOR_NAME=" + flag_val ],
+        default: [ "-DFRONT_3_CAMERA_SENSOR_NAME=SENSOR_NAME_NOTHING" ],
+    }) + select(soong_config_variable("exynos_camera", "secure_camera_sensor"), {
+        any @ flag_val: [ "-DSECURE_CAMERA_SENSOR_NAME=" + flag_val ],
+        default: [ "-DSECURE_CAMERA_SENSOR_NAME=SENSOR_NAME_NOTHING" ],
+    }) + select(soong_config_variable("exynos_camera", "back_camera_rotation"), {
+        any @ flag_val: [ "-DBACK_ROTATION=" + flag_val ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "front_camera_rotation"), {
+        any @ flag_val: [ "-DFRONT_ROTATION=" + flag_val ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "secure_camera_rotation"), {
+        any @ flag_val: [ "-DSECURE_ROTATION=" + flag_val ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "use_dual_camera"), {
+        "true": [ "-DUSE_DUAL_CAMERA" ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "support_factory_check_active_camera"), {
+        "true": [ "-DSUPPORT_FACTORY_CHECK_ACTIVE_CAMERA" ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_dual_camera_solution_fake"), {
+        "true": [ "-DUSES_DUAL_CAMERA_SOLUTION_FAKE" ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_dual_camera_solution_arcsoft"), {
+        "true": [ "-DUSES_DUAL_CAMERA_SOLUTION_ARCSOFT" ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "use_pipe_handler"), {
+        "true": [ "-DUSE_PIPE_HANDLER" ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_sbwc"), {
+        "true": [ "-DBOARD_CAMERA_USES_SBWC" ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_camera_solution_vdis"), {
+        "true": [
+            "-DUSES_SW_VDIS",
+            "-DUSES_CAMERA_SOLUTION_VDIS",
+        ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_camera_solution_super_eis"), {
+        "true": [ "-DUSE_SUPER_EIS" ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_vpl_preload"), {
+        "true": [ "-DUSES_VPL_PRELOAD" ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_hifi_lls_capture"), {
+        "true": [
+            "-DUSES_HIFI_LLS",
+            "-DUSES_HIFI_LLS_CAPTURE",
+        ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_hifi_capture"), {
+        "true": [
+            "-DUSES_HIFI",
+            "-DUSES_HIFI_CAPTURE",
+        ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_sensor_gyro_factory_mode"), {
+        "true": [ "-DUSES_SENSOR_GYRO_FACTORY_MODE" ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_p3_in_exif"), {
+        "true": [ "-DUSES_P3_IN_EXIF" ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_clahe"), {
+        "true": [ "-DUSE_CLAHE_REPROCESSING" ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_slsi_plugin"), {
+        "true": [ "-DUSE_SLSI_PLUGIN" ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_efd"), {
+        "true": [ "-DBOARD_CAMERA_EARLY_FD" ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_3aa_dng"), {
+        "true": [ "-DBOARD_CAMERA_3AA_DNG" ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_slsi_vendor_tags"), {
+        "true": [ "-DUSE_SLSI_VENDOR_TAGS" ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_sensor_listener"), {
+        "true": [ "-DUSES_SENSOR_LISTENER" ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "use_giant_mscl"), {
+        "true": [ "-DUSE_GIANT_MSCL" ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "use_debug_property"), {
+        "true": [ "-DUSE_DEBUG_PROPERTY" ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "use_camera_exynos9820_meta"), {
+        "true": [ "-DUSE_CAMERA_EXYNOS9820_META" ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "use_camera_exynos9630_meta"), {
+        "true": [ "-DUSE_CAMERA_EXYNOS9630_META" ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "use_camera_exynos850_meta"), {
+        "true": [ "-DUSE_CAMERA_EXYNOS850_META" ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "use_camera_exynos3830_meta"), {
+        "true": [ "-DUSE_CAMERA_EXYNOS3830_META" ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_lls_solution"), {
+        "true": [ "-DUSES_LLS_SOLUTION" ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_combine_plugin"), {
+        "true": [ "-DUSES_COMBINE_PLUGIN" ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_super_resolution"), {
+        "true": [ "-DUSES_SUPER_RESOLUTION" ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_remosaic_sensor"), {
+        "true": [ "-DUSE_REMOSAIC_SENSOR" ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_exynos_vpl"), {
+        "true": [ "-DUSES_CAMERA_EXYNOS_VPL" ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_exynos_lec"), {
+        "true": [ "-DUSES_CAMERA_EXYNOS_LEC" ],
+        default: [],
+    }),
+
+    static_libs: [
+        "android.hardware.camera.common@1.0-helper",
+    ],
+
+    header_libs: [
+        "device_kernel_headers",
+    ],
+}
+
+cc_library_shared {
+    name: "libexynoscamera3",
+    defaults: ["exynos_camera_cflag_defaults"],
+    proprietary: true,
+
+    ldflags: [
+        "-Wl",
+        "-Bsymbolic"
+    ],
+
+    shared_libs: [
+        "libutils",
+        "libcutils",
+        "liblog",
+        "libui",
+        "libcamera_metadata",
+        "libutilscallstack",
+        "libexynosutils",
+        "libhwjpeg",
+        "libexynosv4l2",
+        "libion_exynos",
+        "libsync",
+        "libcsc",
+        "libdl",
+        "libexynosgraphicbuffer",
+    ] + select(soong_config_variable("exynos_camera", "uses_slsi_plugin"), {
+        "true": [ "libexynoscamera_plugin" ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_sensor_listener"), {
+        "true": [
+            "libhardware",
+            "libsensorndkbridge",
+        ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "use_giant_mscl"), {
+        "true": [ "libgiantmscl" ],
+        default: [],
+    }),
+
+    include_dirs: [
+        "system/media/camera/include",
+        "system/core/libsync/include",
+        "system/memory/libion/kernel-headers",
+        "hardware/samsung_slsi-linaro/exynos/include",
+        "hardware/samsung_slsi-linaro/exynos5/include",
+        "hardware/libhardware_legacy/include/hardware_legacy",
+        "bionic",
+        "external/expat/lib",
+        "frameworks/native/libs/binder/include",
+        "frameworks/native/libs/ui/include",
+        "frameworks/native/include",
+        "frameworks/native/libs/arect/include",
+        "frameworks/native/libs/nativebase/include",
+        "frameworks/av/include",
+    ],
+
+    local_include_dirs: select(soong_config_variable("exynos_camera", "target_soc_base"), {
+        any @ flag_val: [
+            "hal3/" + flag_val + "",
+            "hal3/" + flag_val + "/SensorInfos",
+        ],
+        default: [],
+    }) + [
+        "core/src/9xxx",
+        "core/src/common_v2",
+        "core/src/common_v2/Activities",
+        "core/src/common_v2/Buffers",
+        "core/src/common_v2/MCPipes",
+        "core/src/common_v2/Pipes2",
+        "core/src/common_v2/PostProcessing",
+        "core/src/common_v2/OfflineProcessing",
+        "core/src/common_v2/SensorInfos",
+        "core/src/common_v2/SizeTables",
+        "core/src/common_v2/MakersNote",
+        "core/src/common_v2/MakersNote/Default",
+        "core/src/common_v2/EEPRomMap",
+        "core/src/common_v2/Tuning",
+        "core/src/common_v2/Tuning/SensorGyro",
+        "hal3/common_v2/Sec",
+    ] + select(soong_config_variable("exynos_camera", "uses_p3_in_exif"), {
+        "true": [ "core/src/common_v2/Tuning/P3" ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_slsi_plugin"), {
+        "true": [
+            "core/src/common_v2/PlugIn",
+            "core/src/common_v2/PlugIn/include",
+            "core/src/common_v2/PlugIn/converter",
+        ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_camera_solution_vdis"), {
+        "true": [
+            "hal3/9xxx/ExynosCameraSolution",
+            "core/src/common_v2/PlugIn/converter/libs/libVDIS",
+        ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_sensor_listener"), {
+        "true": [ "core/src/common_v2/SensorListener" ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_dual_camera_solution_fake"), {
+        "true": [ "core/src/common_v2/PlugIn/converter/libs/libFakeFusion" ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_dual_camera_solution_arcsoft"), {
+        "true": [ "core/src/common_v2/PlugIn/converter/libs/libArcsoftFusion" ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_lls_solution"), {
+        "true": [ "core/src/common_v2/PlugIn/converter/libs/libLLS" ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_hifi_lls_capture"), {
+        "true": [ "core/src/common_v2/PlugIn/converter/libs/libhifills" ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_hifi_capture"), {
+        "true": [ "core/src/common_v2/PlugIn/converter/libs/libNoiseEdge" ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_combine_plugin"), {
+        "true": [ "core/src/common_v2/PlugIn/converter/libs/libCombine" ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_exynos_vpl"), {
+        "true": [ "core/src/common_v2/PlugIn/converter/libs/libVPL" ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_exynos_lec"), {
+        "true": [ "core/src/common_v2/PlugIn/converter/libs/libLEC" ],
+        default: [],
+    }),
+
+    srcs: [
+        "core/src/common_v2/ExynosCameraFrame.cpp",
+        "core/src/common_v2/ExynosCameraMemory.cpp",
+        "core/src/common_v2/ExynosCameraFrameManager.cpp",
+        "core/src/common_v2/ExynosCameraUtils.cpp",
+        "core/src/common_v2/ExynosCameraNode.cpp",
+        "core/src/common_v2/ExynosCameraNodeJpegHAL.cpp",
+        "core/src/common_v2/ExynosCameraFrameSelector.cpp",
+        "core/src/common_v2/ExynosCameraFrameFactoryBase.cpp",
+        "core/src/common_v2/ExynosCameraCallback.cpp",
+        "core/src/common_v2/SensorInfos/ExynosCameraSensorInfoBase.cpp",
+        "core/src/common_v2/PostProcessing/ExynosCameraPP.cpp",
+        "core/src/common_v2/PostProcessing/ExynosCameraPPLibcsc.cpp",
+        "core/src/common_v2/PostProcessing/ExynosCameraPPJPEG.cpp",
+        "core/src/common_v2/PostProcessing/ExynosCameraPPGDC.cpp",
+        "core/src/common_v2/PostProcessing/ExynosCameraPPFactory.cpp",
+        "core/src/common_v2/MakersNote/ExynosCameraMakersNote.cpp",
+        "core/src/common_v2/MakersNote/Default/ExynosCameraMakersNoteDefault.cpp",
+        "core/src/common_v2/MakersNote/ExynosCameraMakersNoteFactory.cpp",
+        "core/src/common_v2/EEPRomMap/ExynosCameraEEPRomMap.cpp",
+        "core/src/common_v2/EEPRomMap/ExynosCameraEEPRomMapDefault.cpp",
+        "core/src/common_v2/EEPRomMap/ExynosCameraEEPRomMap2P7SQ.cpp",
+        "core/src/common_v2/EEPRomMap/ExynosCameraEEPRomMap6B2.cpp",
+        "core/src/common_v2/EEPRomMap/ExynosCameraEEPRomMapGM1SP.cpp",
+        "core/src/common_v2/EEPRomMap/ExynosCameraEEPRomMap2X5SP.cpp",
+        "core/src/common_v2/EEPRomMap/ExynosCameraEEPRomMap5E9.cpp",
+        "core/src/common_v2/EEPRomMap/ExynosCameraEEPRomMap5E9_OTP.cpp",
+        "core/src/common_v2/EEPRomMap/ExynosCameraEEPRomMapOV12A10.cpp",
+        "core/src/common_v2/EEPRomMap/ExynosCameraEEPRomMapOV12A10FF.cpp",
+        "core/src/common_v2/EEPRomMap/ExynosCameraEEPRomMapOV16885C.cpp",
+        "core/src/common_v2/EEPRomMap/ExynosCameraEEPRomMapFactory.cpp",
+        "core/src/common_v2/MCPipes/ExynosCameraMCPipe.cpp",
+        "core/src/common_v2/MCPipes/ExynosCameraPipeImageDump.cpp",
+        "core/src/common_v2/Pipes2/ExynosCameraPipe.cpp",
+        "core/src/common_v2/Pipes2/ExynosCameraSWPipe.cpp",
+        "core/src/common_v2/Pipes2/ExynosCameraPipeFlite.cpp",
+        "core/src/common_v2/Pipes2/ExynosCameraPipeGSC.cpp",
+        "core/src/common_v2/Pipes2/ExynosCameraPipeJpeg.cpp",
+        "core/src/common_v2/Pipes2/ExynosCameraPipeVRA.cpp",
+        "core/src/common_v2/Pipes2/ExynosCameraPipeHFD.cpp",
+        "core/src/common_v2/Pipes2/ExynosCameraPipePP.cpp",
+        "hal3/common_v2/Sec/Pipes2/ExynosCameraPipePPVendor.cpp",
+        "core/src/common_v2/Pipes2/ExynosCameraPipeSWMCSC.cpp",
+        "core/src/common_v2/Pipes2/ExynosCameraPipeMultipleJpeg.cpp",
+        "core/src/common_v2/Buffers/ExynosCameraBufferManager.cpp",
+        "core/src/common_v2/Buffers/ExynosCameraBufferManagerVendor.cpp",
+        "core/src/common_v2/Buffers/ExynosCameraBufferSupplier.cpp",
+        "core/src/common_v2/Buffers/ExynosCameraInternalBufferManager.cpp",
+        "core/src/common_v2/Buffers/ExynosCameraServiceBufferManager.cpp",
+        "core/src/common_v2/Activities/ExynosCameraActivityBase.cpp",
+        "core/src/common_v2/Activities/ExynosCameraActivityAutofocus.cpp",
+        "core/src/common_v2/Activities/ExynosCameraActivityFlash.cpp",
+        "core/src/common_v2/Activities/ExynosCameraActivitySpecialCapture.cpp",
+        "core/src/common_v2/Activities/ExynosCameraActivityUCTL.cpp",
+        "hal3/common_v2/Sec/Activities/ExynosCameraActivityAutofocusVendor.cpp",
+        "hal3/common_v2/Sec/Activities/ExynosCameraActivityFlashVendor.cpp",
+        "core/src/common_v2/Tuning/SensorGyro/ExynosCameraFactoryTestSensorGyro.cpp",
+        "core/src/common_v2/Tuning/ExynosCameraFactoryTest.cpp",
+        "core/src/common_v2/Tuning/ExynosCameraFactoryTestFactory.cpp",
+        "core/src/common_v2/ExynosCameraRequestManager.cpp",
+        "core/src/common_v2/ExynosCameraResourceManager.cpp",
+        "core/src/common_v2/ExynosCameraVendorMetaData.cpp",
+        "core/src/common_v2/ExynosCameraStreamManager.cpp",
+        "core/src/common_v2/ExynosCameraMetadataConverter.cpp",
+        "core/src/common_v2/ExynosCameraTimeLogger.cpp",
+        "hal3/common_v2/Sec/ExynosCameraFrameSelectorVendor.cpp",
+        "hal3/common_v2/Sec/ExynosCameraMetadataConverterVendor.cpp",
+        "hal3/common_v2/Sec/ExynosCameraRequestManagerVendor.cpp",
+        "hal3/common_v2/Sec/ExynosCameraStreamManagerVendor.cpp",
+        "core/src/9xxx/ExynosCameraActivityControl.cpp",
+        "core/src/9xxx/ExynosCamera.cpp",
+        "core/src/9xxx/ExynosCameraParameters.cpp",
+        "core/src/9xxx/ExynosCameraConfigurations.cpp",
+        "core/src/9xxx/ExynosCameraSizeControl.cpp",
+        "core/src/9xxx/ExynosCameraFrameFactory.cpp",
+        "core/src/9xxx/ExynosCameraFrameFactoryPreview.cpp",
+        "hal3/9xxx/ExynosCameraFrameFactoryPreviewVendor.cpp",
+        "core/src/9xxx/ExynosCameraFrameFactoryVision.cpp",
+        "core/src/9xxx/ExynosCameraFrameReprocessingFactory.cpp",
+        "hal3/9xxx/ExynosCameraFrameReprocessingFactoryVendor.cpp",
+        "hal3/9xxx/ExynosCameraVendor.cpp",
+        "hal3/9xxx/ExynosCameraConfigurationsVendor.cpp",
+        "hal3/9xxx/ExynosCameraParametersVendor.cpp",
+        "core/src/common_v2/OfflineProcessing/ExynosCameraOfflineCapture.cpp",
+    ] + select(soong_config_variable("exynos_camera", "target_soc_base"), {
+        any @ flag_val: [ "hal3/" + flag_val + "/SensorInfos/ExynosCameraSensorInfo.cpp" ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_slsi_plugin"), {
+        "true": [
+            "core/src/common_v2/PlugIn/converter/ExynosCameraPlugInConverter.cpp",
+            "core/src/common_v2/Pipes2/ExynosCameraPipePlugIn.cpp",
+            "core/src/9xxx/ExynosCameraFactoryPlugIn.cpp",
+        ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "use_dual_camera"), {
+        "true": [
+            "core/src/common_v2/Pipes2/ExynosCameraPipeSync.cpp",
+            "core/src/9xxx/ExynosCameraFrameFactoryPreviewDual.cpp",
+            "core/src/9xxx/ExynosCameraFrameReprocessingFactoryDual.cpp",
+        ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_remosaic_sensor"), {
+        "true": [ "core/src/9xxx/ExynosCameraFrameReprocessingFactoryRemosaic.cpp" ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "use_pipe_handler"), {
+        "true": [ "core/src/common_v2/MCPipes/ExynosCameraPipeHandler.cpp" ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_camera_solution_vdis"), {
+        "true": [
+            "hal3/9xxx/ExynosCameraSolution/ExynosCameraSolutionSWVdis.cpp",
+            "core/src/common_v2/PlugIn/converter/libs/libVDIS/ExynosCameraPlugInConverterVDIS.cpp",
+        ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_slsi_vendor_tags"), {
+        "true": [
+            "core/src/common_v2/ExynosCameraVendorTags.cpp",
+            "hal3/common_v2/Sec/ExynosCameraVendorUtils.cpp",
+        ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_sensor_listener"), {
+        "true": [
+            "core/src/common_v2/SensorListener/ExynosCameraSensorListener.cpp",
+            "core/src/common_v2/SensorListener/ExynosCameraSensorListenerDummy.cpp",
+            "core/src/common_v2/SensorListener/ExynosCameraSensorListenerASensor.cpp",
+            "core/src/common_v2/SensorListener/ExynosCameraSensorListenerWrapper.cpp",
+        ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "use_debug_property"), {
+        "true": [
+            "core/src/common_v2/ExynosCameraProperty.cpp",
+            "core/src/common_v2/ExynosCameraLogManager.cpp",
+        ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_dual_camera_solution_fake"), {
+        "true": [ "core/src/common_v2/PlugIn/converter/libs/libFakeFusion/ExynosCameraPlugInConverterFakeFusion.cpp" ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_dual_camera_solution_arcsoft"), {
+        "true": [
+            "core/src/common_v2/PlugIn/converter/libs/libArcsoftFusion/ExynosCameraPlugInConverterArcsoftFusion.cpp",
+            "core/src/common_v2/PlugIn/converter/libs/libArcsoftFusion/ExynosCameraPlugInConverterArcsoftFusionBokehCapture.cpp",
+            "core/src/common_v2/PlugIn/converter/libs/libArcsoftFusion/ExynosCameraPlugInConverterArcsoftFusionBokehPreview.cpp",
+            "core/src/common_v2/PlugIn/converter/libs/libArcsoftFusion/ExynosCameraPlugInConverterArcsoftFusionZoomCapture.cpp",
+            "core/src/common_v2/PlugIn/converter/libs/libArcsoftFusion/ExynosCameraPlugInConverterArcsoftFusionZoomPreview.cpp",
+        ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_lls_solution"), {
+        "true": [ "core/src/common_v2/PlugIn/converter/libs/libLLS/ExynosCameraPlugInConverterLowLightShot.cpp" ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_hifi_lls_capture"), {
+        "true": [ "core/src/common_v2/PlugIn/converter/libs/libhifills/ExynosCameraPlugInConverterHifills.cpp" ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_hifi_capture"), {
+        "true": [ "core/src/common_v2/PlugIn/converter/libs/libNoiseEdge/ExynosCameraPlugInConverterHifi.cpp" ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_combine_plugin"), {
+        "true": [
+            "core/src/common_v2/PlugIn/converter/libs/libCombine/ExynosCameraPlugInConverterCombine.cpp",
+            "core/src/common_v2/PlugIn/converter/libs/libCombine/ExynosCameraPlugInConverterCombineReprocessing.cpp",
+            "core/src/common_v2/PlugIn/converter/libs/libCombine/ExynosCameraPlugInConverterCombinePreview.cpp",
+        ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_exynos_vpl"), {
+        "true": [ "core/src/common_v2/PlugIn/converter/libs/libVPL/ExynosCameraPlugInConverterVPL.cpp" ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_exynos_lec"), {
+        "true": [ "core/src/common_v2/PlugIn/converter/libs/libLEC/ExynosCameraPlugInConverterLEC.cpp" ],
+        default: [],
+    }),
+}
+
+cc_defaults {
+    name: "exynos_camera_defaults",
+    relative_install_path: "hw",
+    defaults: ["exynos_camera_cflag_defaults"],
+
+    shared_libs: [
+        "liblog",
+        "libhardware",
+        "libutils",
+        "libion_exynos",
+        "libhwjpeg",
+        "libnativewindow",
+        "libutilscallstack",
+        "libcamera_metadata",
+        "libexynoscamera3",
+        "libbase",
+    ],
+
+    include_dirs: [
+        "system/media/camera/include",
+        "system/core/libsync/include",
+        "hardware/samsung_slsi-linaro/exynos/include",
+        "hardware/samsung_slsi-linaro/exynos5/include",
+        "bionic",
+        "frameworks/native/include",
+        "frameworks/native/libs/nativebase/include",
+        "frameworks/native/libs/arect/include",
+        "frameworks/native/libs/binder/include",
+        "frameworks/native/libs/ui/include",
+    ],
+
+    local_include_dirs: [
+        "core/src/9xxx",
+        "core/src/common_v2",
+        "core/src/common_v2/Activities",
+        "core/src/common_v2/Buffers",
+        "core/src/common_v2/MCPipes",
+        "core/src/common_v2/Pipes2",
+        "core/src/common_v2/PostProcessing",
+        "core/src/common_v2/SensorInfos",
+        "core/src/common_v2/SizeTables",
+        "core/src/common_v2/MakersNote",
+        "core/src/common_v2/MakersNote/Default",
+        "core/src/common_v2/EEPRomMap",
+        "core/src/common_v2/Tuning",
+        "core/src/common_v2/Tuning/SensorGyro",
+        "hal3/common_v2/Sec",
+    ] + select(soong_config_variable("exynos_camera", "target_soc_base"), {
+        any @ flag_val: [
+            "hal3/" + flag_val,
+            "hal3/" + flag_val + "/SensorInfos",
+        ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_p3_in_exif"), {
+        "true": [ "core/src/common_v2/Tuning/P3" ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_slsi_plugin"), {
+        "true": [
+            "core/src/common_v2/PlugIn",
+            "core/src/common_v2/PlugIn/include",
+            "core/src/common_v2/PlugIn/converter",
+        ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_camera_solution_vdis"), {
+        "true": [
+            "hal3/9xxx/ExynosCameraSolution",
+            "core/src/common_v2/PlugIn/converter/libs/libVDIS",
+        ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_sensor_listener"), {
+        "true": [ "core/src/common_v2/SensorListener" ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_dual_camera_solution_fake"), {
+        "true": [ "core/src/common_v2/PlugIn/converter/libs/libFakeFusion" ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_dual_camera_solution_arcsoft"), {
+        "true": [ "core/src/common_v2/PlugIn/converter/libs/libArcsoftFusion" ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_lls_solution"), {
+        "true": [ "core/src/common_v2/PlugIn/converter/libs/libLLS" ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_hifi_lls_capture"), {
+        "true": [ "core/src/common_v2/PlugIn/converter/libs/libhifills" ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_hifi_capture"), {
+        "true": [ "core/src/common_v2/PlugIn/converter/libs/libNoiseEdge" ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_combine_plugin"), {
+        "true": [ "core/src/common_v2/PlugIn/converter/libs/libCombine" ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_exynos_vpl"), {
+        "true": [ "core/src/common_v2/PlugIn/converter/libs/libVPL" ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "uses_exynos_lec"), {
+        "true": [ "core/src/common_v2/PlugIn/converter/libs/libLEC" ],
+        default: [],
+    }),
+
+    srcs: [
+        "core/src/common_v2/ExynosCameraInterface.cpp",
+    ],
+}
+
+soong_config_module_type {
+    name: "gralloc1_cc_library_shared",
+    module_type: "cc_library_shared",
+    config_namespace: "ANDROID",
+    value_variables: ["target_board_platform"],
+    properties: [
+        "name",
+    ],
+}
+
+gralloc1_cc_library_shared {
+    name: "camera.target_board_platform",
+    defaults: ["exynos_camera_defaults"],
+
+    soong_config_variables: {
+        target_board_platform: {
+            name: "camera.%s",
+            conditions_default: {
+                name: "camera.target_board_platform",
+            },
+        },
+    },
+    proprietary: true,
+}

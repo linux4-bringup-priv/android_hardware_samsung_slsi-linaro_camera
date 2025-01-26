@@ -37,7 +37,7 @@
 #include <cutils/properties.h>
 #include <cutils/atomic.h>
 
-#include "videodev2_exynos_media.h"
+#include <linux/videodev2_exynos_media.h>
 #include "ExynosCameraCommonDefine.h" /* just refer to CLOG */
 
 #include "ExynosCameraPlugIn.h"

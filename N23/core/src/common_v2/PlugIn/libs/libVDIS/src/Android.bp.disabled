@@ -1,0 +1,33 @@
+
+cc_library_shared {
+    name: "libvdis",
+    proprietary: true,
+
+    cflags: [
+        "-Wno-unused-parameter",
+        "-Wno-error=date-time",
+        "-Wno-overloaded-virtual",
+        "-Wno-unused-variable",
+    ],
+
+    shared_libs: [
+        "libutils",
+        "libcutils",
+        "liblog",
+        "libexynosutils",
+    ],
+
+    include_dirs: [
+        "system/core/libcutils/include",
+        "hardware/samsung_slsi-linaro/exynos/include",
+        "hardware/samsung_slsi-linaro/camera/N23/core/src/9xxx",
+        "hardware/samsung_slsi-linaro/camera/N23/core/src/common_v2",
+        "hardware/samsung_slsi-linaro/camera/N23/core/src/common_v2/PlugIn",
+        "hardware/samsung_slsi-linaro/camera/N23/core/src/common_v2/PlugIn/include",
+        "hardware/samsung_slsi-linaro/camera/N23/core/src/common_v2/PlugIn/libs/libVDIS/include",
+    ],
+
+    srcs: [
+        "libvdis.cpp",
+    ],
+}

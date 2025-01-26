@@ -20042,7 +20042,7 @@ status_t ExynosCamera::m_setReprocessingBuffer(bool isRemosaic)
 	/* combined plugin do not need addtional buffer */
 #else
 #ifdef SUPPORT_REMOSAIC_CAPTURE
-#if !define(SUPPORT_OPTIMIZED_REMOSAIC_BUFFER_ALLOCATION)
+#ifdef SUPPORT_OPTIMIZED_REMOSAIC_BUFFER_ALLOCATION
     if (m_configurations->isSupportedFunction(SUPPORTED_FUNCTION_REMOSAIC)) {
         m_setRemosaicBuffer();
     }

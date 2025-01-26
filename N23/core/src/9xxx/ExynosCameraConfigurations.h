@@ -24,9 +24,9 @@
 #include <cutils/properties.h>
 #include <CameraParameters.h>
 
-#include <videodev2.h>
-#include <videodev2_exynos_media.h>
-#include <videodev2_exynos_camera.h>
+#include <linux/videodev2.h>
+#include <linux/videodev2_exynos_media.h>
+#include "videodev2_exynos_camera.h"
 #include <map>
 #include <unordered_map>
 

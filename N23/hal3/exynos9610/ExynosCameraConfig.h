@@ -282,6 +282,8 @@ enum CAMERA_SERV_ID {
 /* This value for MFC alignment */
 #define MFC_ALIGN                       (16)
 
+#define STRIPE_MARGIN_WIDTH             (384)
+
 #define USE_WQHD_RECORDING
 #define USE_UHD_RECORDING
 #define USE_ISP_BUFFER_SIZE_TO_BDS

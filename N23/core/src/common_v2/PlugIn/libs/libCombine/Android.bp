@@ -1,0 +1,98 @@
+
+cc_library_shared {
+    name: "libexynoscamera_combine_reprocessing_plugin",
+    proprietary: true,
+
+    cflags: [
+        "-Wno-unused-parameter",
+        "-Wno-error=date-time",
+        "-Wno-overloaded-virtual",
+        "-Wno-unused-variable",
+    ],
+
+    shared_libs: [
+        "libutils",
+        "libcutils",
+        "liblog",
+        "libexynoscamera_plugin",
+        "libexynosutils",
+        "libexynoscamera_fakemultiframe",
+    ] + select(soong_config_variable("exynos_camera", "libexynoscamera_fakefusion"), {
+        any @ flag_val: [ flag_val ],
+        default: [],
+    }),
+
+    header_libs: [
+        "device_kernel_headers",
+    ],
+
+    include_dirs: [
+        "system/core/libcutils/include",
+        "hardware/samsung_slsi-linaro/exynos/include",
+        "hardware/samsung_slsi-linaro/camera/N23/core/src/common_v2",
+        "hardware/samsung_slsi-linaro/camera/N23/core/src/common_v2/PlugIn",
+        "hardware/samsung_slsi-linaro/camera/N23/core/src/common_v2/PlugIn/include",
+        "hardware/samsung_slsi-linaro/camera/N23/core/src/common_v2/PlugIn/libs/libFakeMultiFrame/include",
+        "hardware/samsung_slsi-linaro/camera/N23/core/src/common_v2/PlugIn/libs/libFakeFusion/include",
+    ],
+
+    local_include_dirs: [
+        "include",
+    ],
+
+    srcs: [
+        "ExynosCameraPlugInCombine.cpp",
+        "ExynosCameraPlugInCombineReprocessing.cpp",
+    ],
+}
+
+cc_library_shared {
+    name: "libexynoscamera_combine_preview_plugin",
+    proprietary: true,
+
+    cflags: [
+        "-Wno-unused-parameter",
+        "-Wno-error=date-time",
+        "-Wno-overloaded-virtual",
+        "-Wno-unused-variable",
+    ],
+
+    shared_libs: [
+        "libutils",
+        "libcutils",
+        "liblog",
+        "libexynoscamera_plugin",
+        "libexynosutils",
+        "libexynoscamera_fakemultiframe",
+    ] + select(soong_config_variable("exynos_camera", "libexynoscamera_fakefusion"), {
+        any @ flag_val: [ flag_val ],
+        default: [],
+    }) + select(soong_config_variable("exynos_camera", "libfakescenedetect"), {
+        any @ flag_val: [ flag_val ],
+        default: [],
+    }),
+
+    header_libs: [
+        "device_kernel_headers",
+    ],
+
+    include_dirs: [
+        "system/core/libcutils/include",
+        "hardware/samsung_slsi-linaro/exynos/include",
+        "hardware/samsung_slsi-linaro/camera/N23/core/src/common_v2",
+        "hardware/samsung_slsi-linaro/camera/N23/core/src/common_v2/PlugIn",
+        "hardware/samsung_slsi-linaro/camera/N23/core/src/common_v2/PlugIn/include",
+        "hardware/samsung_slsi-linaro/camera/N23/core/src/common_v2/PlugIn/libs/libFakeMultiFrame/include",
+        "hardware/samsung_slsi-linaro/camera/N23/core/src/common_v2/PlugIn/libs/libFakeFusion/include",
+    ],
+
+    local_include_dirs: [
+        "include",
+    ],
+
+    srcs: [
+        "ExynosCameraPlugInCombine.cpp",
+        "ExynosCameraPlugInCombinePreview.cpp",
+    ],
+}
+

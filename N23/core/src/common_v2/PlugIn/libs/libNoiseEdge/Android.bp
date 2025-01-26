@@ -1,0 +1,44 @@
+
+cc_library_shared {
+    name: "libexynoscamera_hifi_plugin",
+    proprietary: true,
+
+    cflags: [
+        "-Wno-unused-parameter",
+        "-Wno-error=date-time",
+        "-Wno-overloaded-virtual",
+        "-Wno-unused-variable",
+        "-Wno-macro-redefined",
+    ],
+
+    shared_libs: [
+        "libutils",
+        "libcutils",
+        "liblog",
+        "libexynoscamera_plugin",
+        "libexynosutils",
+    ] + select(soong_config_variable("exynos_camera", "libyuvrepro"), {
+        any @ flag_val: [ flag_val ],
+        default: [],
+    }),
+
+    header_libs: [
+        "device_kernel_headers",
+    ],
+
+    include_dirs: [
+        "system/core/libcutils/include",
+        "hardware/samsung_slsi-linaro/exynos/include",
+        "hardware/samsung_slsi-linaro/camera/N23/core/src/common_v2",
+        "hardware/samsung_slsi-linaro/camera/N23/core/src/common_v2/PlugIn",
+        "hardware/samsung_slsi-linaro/camera/N23/core/src/common_v2/PlugIn/include",
+    ],
+
+    local_include_dirs: [
+        "include",
+    ],
+
+    srcs: [
+        "ExynosCameraPlugInHiFi.cpp",
+    ],
+}

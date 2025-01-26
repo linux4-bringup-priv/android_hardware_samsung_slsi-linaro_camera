@@ -1,0 +1,64 @@
+
+cc_library_shared {
+    name: "libexynoscamera_plugin",
+    proprietary: true,
+
+    cflags: [
+        "-Wno-unused-parameter",
+        "-Wno-error=date-time",
+        "-Wno-overloaded-virtual",
+        "-Wno-unused-variable",
+    ],
+
+    header_libs: [
+        "device_kernel_headers",
+    ],
+
+    shared_libs: [
+        "libutils",
+        "libcutils",
+        "liblog",
+    ],
+
+    include_dirs: [
+        "bionic",
+        "frameworks/native/libs/binder/include",
+        "hardware/samsung_slsi-linaro/camera/N23/core/src/common_v2",
+        "hardware/samsung_slsi-linaro/camera/N23/core/src/common_v2/PlugIn",
+        "hardware/samsung_slsi-linaro/camera/N23/core/src/common_v2/PlugIn/include",
+    ],
+
+    srcs: [
+        "ExynosCameraPlugIn.cpp",
+    ],
+}
+
+cc_library_shared {
+    name: "libexynoscamera_plugin_utils",
+    proprietary: true,
+
+    cflags: [
+        "-Wno-unused-parameter",
+        "-Wno-error=date-time",
+        "-Wno-overloaded-virtual",
+    ],
+
+    shared_libs: [
+        "libutils",
+        "libcutils",
+        "liblog",
+        "libion",
+    ],
+
+    include_dirs: [
+        "bionic",
+        "frameworks/native/libs/binder/include",
+        "hardware/samsung_slsi-linaro/camera/N23/core/src/common_v2",
+        "hardware/samsung_slsi-linaro/camera/N23/core/src/common_v2/PlugIn",
+        "hardware/samsung_slsi-linaro/camera/N23/core/src/common_v2/PlugIn/include",
+    ],
+
+    srcs: [
+        "ExynosCameraPlugInUtils.cpp",
+    ],
+}

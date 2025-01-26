@@ -36,7 +36,7 @@
 #include <utils/String8.h>
 #include <cutils/properties.h>
 
-#include "videodev2_exynos_media.h"
+#include <linux/videodev2_exynos_media.h>
 #include "ExynosCameraCommonDefine.h" /* just refer to CLOG */
 
 #include "PlugInCommon.h"

@@ -1,0 +1,39 @@
+
+cc_library_shared {
+    name: "libexynoscamera_fakemultiframe",
+    proprietary: true,
+
+    cflags: [
+        "-Wno-unused-parameter",
+        "-Wno-error=date-time",
+        "-Wno-overloaded-virtual",
+        "-Wno-unused-variable",
+    ],
+
+    shared_libs: [
+        "libutils",
+        "libcutils",
+        "liblog",
+        "libexynosutils",
+    ],
+
+    header_libs: [
+        "device_kernel_headers",
+    ],
+
+    include_dirs: [
+        "system/core/libcutils/include",
+        "hardware/samsung_slsi-linaro/exynos/include",
+        "hardware/samsung_slsi-linaro/camera/N23/core/src/common_v2",
+        "hardware/samsung_slsi-linaro/camera/N23/core/src/common_v2/PlugIn",
+        "hardware/samsung_slsi-linaro/camera/N23/core/src/common_v2/PlugIn/include",
+    ],
+
+    local_include_dirs: [
+        "include",
+    ],
+
+    srcs: [
+        "src/FakeMultiFrame.cpp",
+    ],
+}

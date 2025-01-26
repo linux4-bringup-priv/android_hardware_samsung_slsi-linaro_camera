@@ -33,8 +33,8 @@
 #include <utils/Timers.h>
 #include "string.h"
 
-#include "videodev2.h"
-#include "videodev2_exynos_media.h"
+#include <linux/videodev2.h>
+#include <linux/videodev2_exynos_media.h>
 
 #include "exynos_format.h"
 #include "PlugInCommon.h"

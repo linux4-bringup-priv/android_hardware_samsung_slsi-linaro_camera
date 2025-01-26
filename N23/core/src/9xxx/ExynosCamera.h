@@ -475,7 +475,7 @@ private:
 #ifdef DEBUG_RAWDUMP
     void        m_dumpRawBuffer(ExynosCameraBuffer* bayerBuffer, ExynosCameraFrameSP_sptr_t bayerFrame, ExynosCameraFrameSP_sptr_t frame);
 #endif
-#ifdef SUPPORT_DEPTH_MAP || defined (SUPPORT_PD_IMAGE)
+#if defined (SUPPORT_DEPTH_MAP) || defined (SUPPORT_PD_IMAGE)
     status_t    m_handleDepthBuffer(ExynosCameraFrameSP_sptr_t frame, ExynosCameraRequestSP_sprt_t request);
 #endif
     status_t    m_handleSensorGyroBuffer(ExynosCameraFrameSP_sptr_t frame);
